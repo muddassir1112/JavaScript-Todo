@@ -4,6 +4,7 @@ var com = []; //Completed Array
 document.getElementById("updateTodo").style.display = "none";
 document.getElementById("updateComp").style.display = "none";
 
+
 //Function to add input into todo array
 function add() {
   var input = document.getElementById("new-task").value;
@@ -17,6 +18,7 @@ function add() {
   } else {
     arr.push(obj);
     display();
+    document.getElementById("new-task").value = "";
   }
 }
 
@@ -29,11 +31,11 @@ function display() {
       element.id +
       "')\"><label>" +
       element.data +
-      '</label><input type="button" class="edit" onclick="edit(\'' +
+      '</label><button class="edit" onclick="edit(\'' +
       element.id +
-      '\')" value="Edit"><input type="button" class="delete" onclick="delTodo(\'' +
+      '\')" >Edit</button><button class="delete" onclick="delTodo(\'' +
       element.id +
-      '\')" value="Delete"><br></li>';
+      '\')">Delete</button><br></li>';
   });
   todo += "</ul>";
   document.getElementById("output").innerHTML = todo;
@@ -58,11 +60,11 @@ function completed() {
       element.id +
       "' )\"><label>" +
       element.data +
-      '</label><input type="button" class="edit" onclick="edit2(\'' +
+      '</label><button class="edit" id="btnEdit" onclick="edit2(\'' +
       element.id +
-      '\')" value="Edit"><input type="button" class="delete" onclick="delComp(\'' +
+      '\')" >Edit</button><button class="delete" onclick="delComp(\'' +
       element.id +
-      '\')" value="Delete"><br>';
+      '\')">Delete</button><br>';
   });
   str += "</li></ul>";
   document.getElementById("res").innerHTML = str;
@@ -108,23 +110,27 @@ function edit(val2) {
   document.getElementById("add").style.display = "none";
   document.getElementById("updateComp").style.display = "none";
   document.getElementById("updateTodo").style.display = "block";
-
+  var disbaleEdit = document.getElementsByClassName("edit");
   for (let i = 0; i < arr.length; i++) {
     if (val2 == arr[i].id) {
-      console.log("hello");
       document.getElementById("new-task").value = arr[i].data;
       arr.splice(i, 1);
     }
   }
-
   display();
+  for (var i = 0; i< disbaleEdit.length; i++){
+    disbaleEdit[i].disabled = true;
+  }
+
+  
 }
+
 //Function to Edit the Completed tasks
 function edit2(val2) {
   document.getElementById("add").style.display = "none";
   document.getElementById("updateTodo").style.display = "none";
   document.getElementById("updateComp").style.display = "block";
-
+  var disbaleEdit = document.getElementsByClassName("edit");
   for (let i = 0; i < com.length; i++) {
     if (val2 == com[i].id) {
       console.log("hello");
@@ -132,8 +138,10 @@ function edit2(val2) {
       com.splice(i, 1);
     }
   }
-
   completed();
+  for (var i = 0; i< disbaleEdit.length; i++){
+    disbaleEdit[i].disabled = true;
+  }
 }
 
 //Function to Update todo tasks
